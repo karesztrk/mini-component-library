@@ -10,14 +10,17 @@ const variants = {
   small: {
     padding: 0,
     height: 8,
+    radius: 4,
   },
   medium: {
     height: 12,
     padding: 0,
+    radius: 4,
   },
   large: {
     height: 24,
     padding: 4,
+    radius: 8,
   }
 }
 
@@ -26,8 +29,9 @@ const Wrapper = styled.div`
   height: ${(props => variants[props.size].height)}px;
   background: ${COLORS.transparentGray15};
   box-shadow: inset 0px 2px 4px ${COLORS.transparentGray35};
-  border-radius: 8px;
+  border-radius: ${(props => variants[props.size].radius)}px;
   padding: ${(props => variants[props.size].padding)}px;
+  overflow: hidden;
 `;
 
 const Fill = styled.div`
