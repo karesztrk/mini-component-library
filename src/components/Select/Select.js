@@ -5,9 +5,15 @@ import { COLORS } from '../../constants';
 import Icon from '../Icon';
 import { getDisplayedValue } from './Select.helpers';
 
+const NativeSelect = styled.select`
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+`;
+
 const Base = styled.div`
-  display: inline-block;
-  
   padding: 12px 16px;
   background: ${COLORS.transparentGray15};
   border-radius: 8px;
@@ -24,19 +30,14 @@ const Base = styled.div`
   outline-width: 2px;
   outline-style: solid;
 
-  &:focus {
+  ${NativeSelect}:focus + & {
     outline-color: revert;
   }
 
-  &:hover {
+  ${NativeSelect}:hover + & {
     color: ${COLORS.black};
     outline-color: transparent;
   }
-
-  & ~ select {
-    display: none;
-  }
-  
 
 `;
 
@@ -55,20 +56,30 @@ const Chevron = styled.div`
   }
 `;
 
+const Wrapper = styled.div`
+  position: relative;
+  display: inline-block;
+
+  & > select {
+    opacity: 0;
+  }
+`;
+
+
 const Select = ({ label, value, onChange, children }) => {
   const displayedValue = getDisplayedValue(value, children);
   return (
-    <>
-      <Base role="listbox" aria-label={label}>
+    <Wrapper>
+      <NativeSelect aria-label={label} value={value} onChange={onChange}>
+        {children}
+      </NativeSelect>
+      <Base>
         <SelectValue>{displayedValue}</SelectValue>
         <Chevron>
           <Icon id="chevron-down" />
         </Chevron>
       </Base>
-      <select aria-hidden value={value} onChange={onChange}>
-        {children}
-      </select>
-    </>
+    </Wrapper>
   );
 };
 
