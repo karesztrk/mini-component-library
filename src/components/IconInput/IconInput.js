@@ -9,25 +9,25 @@ const Variants = {
   small: {
     border: 1,
     font: 14,
-    icon: 14,
+    icon: 16,
     shift: 10,
     padding: 4,
   },
   large: {
     border: 2,
     font: 18,
-    icon: 20,
+    icon: 18,
     shift: 15,
     padding: 7,
   }
 }
 
 const NativeInput = styled.input`
-  position: absolute;
   z-index: 1;
   display: inline;
   height: auto;
   width: ${props => props.width}px;
+
   border: none;
   border-radius: ${props => Variants[props.size].border}px;
   border-bottom: ${props => Variants[props.size].border}px solid ${COLORS.black};
@@ -38,10 +38,8 @@ const NativeInput = styled.input`
 
   font-family: Roboto;
   font-style: normal;
-  font-weight: bold;
-  font-size: ${props => Variants[props.size].font}px;
-
-  color: ${COLORS.gray700};
+  font-weight: 700;
+  font-size: ${props => Variants[props.size].font / 16}rem;
 
   &::placeholder {
     color: ${COLORS.gray500};
@@ -53,27 +51,31 @@ const NativeInput = styled.input`
     outline-offset: 2px;
   }
 
+  color: inherit;
+`;
+
+const Wrapper = styled.div`
+  position: relative;
+  isolation: isolate;
+  display: block;
+  width: ${props => props.width}px;
+  color: ${COLORS.gray700};
+
   &:hover {
     color: ${COLORS.black};
   }
 `;
 
-const Wrapper = styled.div`
-  position: relative;
-`;
-
 const IconWrapper = styled.div`
   position: absolute;
-  display: inline;
   z-index: 2;
-  padding: ${props => Variants[props.size].padding}px 0;
-
+  top: 0;
+  bottom: 0;
+  
   & > div {
-    display: inline;
-
-    & > svg {
-    display: inline;
-    }
+    position: absolute;
+    inset: 0;
+    margin: auto 0;
   }
 `;
 
@@ -85,7 +87,7 @@ const IconInput = ({
   placeholder,
 }) => {
   return (
-    <Wrapper>
+    <Wrapper width={width}>
       <IconWrapper size={size}>
         <Icon id={icon} size={Variants[size].icon} strokeWidth={size === 'large' ? 2 : 1} />
       </IconWrapper>
